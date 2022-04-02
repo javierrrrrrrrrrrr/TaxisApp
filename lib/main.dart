@@ -30,7 +30,7 @@ class MapsApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MapsApp',
-      initialRoute: "home",
+      initialRoute: "loading",
       routes: appRoutes,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
