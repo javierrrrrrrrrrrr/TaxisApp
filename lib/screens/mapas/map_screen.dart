@@ -68,7 +68,15 @@ class _MapScreenState extends State<MapScreen> {
           );
         },
       ),
-      floatingActionButton: const BtnCurrentLocation(),
+      floatingActionButton: BlocBuilder<LocationBloc, LocationState>(
+        builder: (context, locationState) {
+          if (locationState.lastKnownLocation != null) {
+            return const BtnCurrentLocation();
+          }
+          return Container();
+        },
+      ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
 
       // BtnToggleUserRoute(),
