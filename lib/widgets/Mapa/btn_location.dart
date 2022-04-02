@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:maps_app/blocs/blocs.dart';
 import 'package:maps_app/ui/ui.dart';
 
@@ -12,7 +13,7 @@ class BtnCurrentLocation extends StatelessWidget {
     final mapBloc = BlocProvider.of<MapBloc>(context);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 10, top: Get.height * 0.18),
       child: CircleAvatar(
         backgroundColor: Colors.orange,
         maxRadius: 25,

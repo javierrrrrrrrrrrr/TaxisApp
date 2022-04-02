@@ -52,81 +52,121 @@ class _MapScreenState extends State<MapScreen> {
                 polylines.removeWhere((key, value) => key == 'myRoute');
               }
 
-              return SingleChildScrollView(
-                child: Stack(
-                  children: [
-                    MapView(
-                      initialLocation: locationState.lastKnownLocation!,
-                      polylines: polylines.values.toSet(),
-                      markers: mapState.markers.values.toSet(),
-                    ),
-                    const SearchBar(),
-                    const ManualMarker(),
-                    Positioned(
-                      bottom: 0,
-                      child: Container(
-                        height: 220,
-                        width: Get.width,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFF9AC00),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(25),
-                            topRight: Radius.circular(25),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 25),
-                                      width: 60,
-                                      height: 3,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    const Text(
-                                      "Elija un Taxi",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 20),
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: const [
-                                    SelecionarTipoTaxi(texto: "Economico"),
-                                    SelecionarTipoTaxi(texto: "Econmico"),
-                                    SelecionarTipoTaxi(texto: "Econmico"),
-                                    SelecionarTipoTaxi(texto: "Econmico"),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              return Stack(
+                children: [
+                  MapView(
+                    initialLocation: locationState.lastKnownLocation!,
+                    polylines: polylines.values.toSet(),
+                    markers: mapState.markers.values.toSet(),
+                  ),
+                  const SearchBar(),
+                  const ManualMarker(),
+                  const BottonModalShet(),
+                ],
               );
             },
           );
         },
       ),
       floatingActionButton: const BtnCurrentLocation(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
 
       // BtnToggleUserRoute(),
       // BtnFollowUser(),
+    );
+  }
+}
+
+class BottonModalShet extends StatelessWidget {
+  const BottonModalShet({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.08,
+      minChildSize: 0.08,
+      maxChildSize: 0.3,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFFf8ac00),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: BottonModalShetBody(scrollController: scrollController),
+        );
+      },
+    );
+  }
+}
+
+class BottonModalShetBody extends StatelessWidget {
+  const BottonModalShetBody({
+    Key? key,
+    required this.scrollController,
+  }) : super(key: key);
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollController,
+      child: SizedBox(
+        height: Get.height * 0.3,
+        child: const LogicaBien(),
+      ),
+    );
+  }
+}
+
+class LogicaBien extends StatelessWidget {
+  const LogicaBien({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 25),
+                  width: 60,
+                  height: 3,
+                  color: Colors.white,
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Elija un Taxi",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+              ],
+            )
+          ],
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: const [
+                SelecionarTipoTaxi(texto: "Economico"),
+                SelecionarTipoTaxi(texto: "Econmico"),
+                SelecionarTipoTaxi(texto: "Econmico"),
+                SelecionarTipoTaxi(texto: "Econmico"),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -287,8 +327,8 @@ class SelecionarTipoTaxi extends StatelessWidget {
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
-              child: SvgPicture.network(
-                "https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/adobe.svg",
+              child: SvgPicture.asset(
+                "assets/carro.svg",
                 fit: BoxFit.cover,
               )),
           const SizedBox(height: 10),
